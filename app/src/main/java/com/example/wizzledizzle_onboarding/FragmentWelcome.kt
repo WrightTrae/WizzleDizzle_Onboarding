@@ -6,13 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.view.animation.DecelerateInterpolator
-import android.R.attr.start
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorCompat
-import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -23,7 +18,6 @@ class FragmentWelcome : Fragment() {
     val ANIM_ITEM_DURATION: Long = 1000L
     val ITEM_DELAY = 300
     val STYLE_EXTRA = "STYLE"
-    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
