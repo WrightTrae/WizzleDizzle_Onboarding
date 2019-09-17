@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@android:color/white</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="primaryButton">#006FBA</color>
+    <color name="primaryButtonPressed">#003B77</color>
+    <color name="secondaryButton">#FFFFFF</color>
+</resources>
