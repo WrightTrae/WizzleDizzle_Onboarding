@@ -11,7 +11,6 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-// git gud git
     /**
      * The [androidx.viewpager.widget.PagerAdapter] that will provide
      * fragments for each of the sections. We use a
