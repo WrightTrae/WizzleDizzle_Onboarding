@@ -1,5 +1,7 @@
 package com.example.wizzledizzle_onboarding
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,30 +13,69 @@ import androidx.core.view.ViewPropertyAnimatorCompat
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import java.io.ByteArrayOutputStream
+
+
 
 
 class FragmentWelcome : Fragment() {
-    val STARTUP_DELAY: Long = 300L
-    val ANIM_ITEM_DURATION: Long = 1000L
-    val ITEM_DELAY = 300
-    val STYLE_EXTRA = "STYLE"
+    private val STARTUP_DELAY: Long = 300L
+    private val ANIM_ITEM_DURATION: Long = 1000L
+    private val ITEM_DELAY = 300
+    private var icon: Bitmap? = null
+    private var titleText = ""
+    private var bodyText = ""
+    private var buttonText = "Continue"
+    private var continueButton: Button? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_welcome, container, false)
-        return rootView
+        // Get the screen details that were passed in
+        arguments?.getByteArray(ICON_EXTRA).let {
+            val byteArray: ByteArray? = it
+            if(byteArray != null) {
+                icon = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+            }
+        }
+        arguments?.getString(TITLE_EXTRA).let {
+            if(it != null){
+                titleText = it
+            }else{
+                print("Title text appears to be null!!")
+            }
+        }
+        arguments?.getString(BODY_EXTRA).let {
+            if(it != null){
+                bodyText = it
+            }else{
+                print("Body text appears to be null!!")
+            }
+        }
+        arguments?.getString(BUTTON_EXTRA).let {
+            if(it != null){
+                buttonText = it
+            }else{
+                print("Button text appears to be null!!")
+            }
+        }
+        return inflater.inflate(R.layout.fragment_welcome, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val style: StyleObject
-        if (savedInstanceState != null && savedInstanceState.containsKey(STYLE_EXTRA)){
-            style = savedInstanceState[STYLE_EXTRA] as StyleObject
-        }else{
-            style = StyleObject("Test","TTTTTTTEst", null,null,null,null, null)
+        arguments?.getSerializable(STYLE_EXTRA).let {
+            style = it as StyleObject
         }
+        view.setBackgroundColor(style.backgroundColor)
+
+        val continueBtn = view.findViewById<Button>(R.id.welcome_btn_continue)
+        continueBtn.setOnClickListener{
+            animate(view, style)
+        }
+
         animate(view, style)
     }
 
@@ -43,7 +84,8 @@ class FragmentWelcome : Fragment() {
 
         // Required Variables
         val titleTV = view.findViewById<TextView>(R.id.welcome_tv_title)
-        titleTV.text = style.titleText
+        titleTV.text = titleText
+        titleTV.setTextColor(style.textColor)
         titleTV.translationY = -50f
         viewAnimations.plus(ViewCompat.animate(titleTV)
             .translationY(0f).alpha(1f)
@@ -51,44 +93,37 @@ class FragmentWelcome : Fragment() {
             .setDuration(1000).setInterpolator(DecelerateInterpolator()))
 
         val bodyTV = view.findViewById<TextView>(R.id.welcome_tv_body)
-        bodyTV.text = style.bodyText
+        bodyTV.text = bodyText
+        bodyTV.setTextColor(style.textColor)
         bodyTV.translationY = -50f
         viewAnimations.plus(ViewCompat.animate(bodyTV)
             .translationY(0f).alpha(1f)
             .setStartDelay((ITEM_DELAY * 1) + 500L)
             .setDuration(1000).setInterpolator(DecelerateInterpolator()))
 
-        val continueBtn = view.findViewById<Button>(R.id.welcome_btn_continue)
-        continueBtn.text = style.buttonText ?: "Continue"
-        continueBtn.setOnClickListener{
-            animate(view, style)
+        if(continueButton == null){
+            continueButton = view.findViewById(R.id.welcome_btn_continue)
         }
-        // TODO button color continueBtn.background
-        viewAnimations.plus(ViewCompat.animate(continueBtn)
+        continueButton!!.text = buttonText
+        continueButton!!.setBackgroundColor(style.buttonColor)
+        continueButton!!.setTextColor(style.buttonTextColor)
+        viewAnimations.plus(ViewCompat.animate(continueButton!!)
             .scaleY(1F).scaleX(1f)
             .setStartDelay(ITEM_DELAY * 2 + 500L)
             .setDuration(500L).setInterpolator(DecelerateInterpolator()))
 
-
-        val logoImageView = view.findViewById<ImageView>(R.id.welcome_iv_logo)
-        logoImageView.translationY = 300f
-        viewAnimations.plus(ViewCompat.animate(logoImageView)
-            .translationY(0f)
-            .setStartDelay(STARTUP_DELAY)
-            .setDuration(ANIM_ITEM_DURATION).setInterpolator(
-                DecelerateInterpolator(1.2f)
-            ))
         // Optional Variables
-//        style.icon?.let {
-//            val logoImageView = view.findViewById<ImageView>(R.id.welcome_iv_logo)
-//            logoImageView.setImageBitmap(it)
-//            viewAnimations.plus(ViewCompat.animate(logoImageView)
-//                .translationY(-300f)
-//                .setStartDelay(STARTUP_DELAY).alpha(1f)
-//                .setDuration(ANIM_ITEM_DURATION).setInterpolator(
-//                    DecelerateInterpolator(1.2f)
-//                ))
-//        }
+        icon?.let {
+            val logoImageView = view.findViewById<ImageView>(R.id.welcome_iv_logo)
+            logoImageView.setImageBitmap(it)
+            logoImageView.translationY = 300f
+            viewAnimations.plus(ViewCompat.animate(logoImageView)
+                .translationY(0f)
+                .setStartDelay(STARTUP_DELAY).alpha(1f)
+                .setDuration(ANIM_ITEM_DURATION).setInterpolator(
+                    DecelerateInterpolator(1.2f)
+                ))
+        }
 
         viewAnimations.forEach {
             it.start()
@@ -96,20 +131,27 @@ class FragmentWelcome : Fragment() {
     }
 
     companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private val ARG_SECTION_NUMBER = "section_number"
+        private const val TITLE_EXTRA = "TITLE_EXTRA"
+        private const val BODY_EXTRA = "BODY_EXTRA"
+        private const val BUTTON_EXTRA = "BUTTON_EXTRA"
+        private const val ICON_EXTRA = "ICON_EXTRA"
+        private const val STYLE_EXTRA = "STYLE_EXTRA"
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        fun newInstance(sectionNumber: Int): FragmentWelcome {
+
+        fun newInstance(titleText: String, bodyText: String, buttonText: String, icon: Bitmap?, style: StyleObject): FragmentWelcome {
             val fragment = FragmentWelcome()
             val args = Bundle()
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber)
+            args.putString(TITLE_EXTRA, titleText)
+            args.putString(BODY_EXTRA, bodyText)
+            args.putString(BUTTON_EXTRA, buttonText)
+            icon?.let {
+                // Convert Bitmap to byte array so it can be serializable
+                val stream = ByteArrayOutputStream()
+                it.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                val byteArray = stream.toByteArray()
+                args.putByteArray(ICON_EXTRA, byteArray)
+            }
+            args.putSerializable(STYLE_EXTRA, style)
             fragment.arguments = args
             return fragment
         }

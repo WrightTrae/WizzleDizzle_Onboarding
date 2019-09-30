@@ -1,5 +1,6 @@
 package com.example.wizzledizzle_onboarding
 
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -19,11 +20,17 @@ class MainActivity : AppCompatActivity() {
      * may be best to switch to a
      * androidx.fragment.app.FragmentStatePagerAdapter.
      */
+    private var wizzleDizzleOnboarding: WizzleDizzleOnboarding? = null
+
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        wizzleDizzleOnboarding = WizzleDizzleOnboarding(this)
+        wizzleDizzleOnboarding!!.addWelcomeScreen("Test Title", "Test Body", "Next",
+            BitmapFactory.decodeResource(resources, R.drawable.test_image)
+        )
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -63,12 +70,12 @@ class MainActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return FragmentWelcome.newInstance(position + 1)
+            return wizzleDizzleOnboarding!!.fragments[position]
         }
 
         override fun getCount(): Int {
             // Show 3 total pages.
-            return 3
+            return wizzleDizzleOnboarding!!.fragments.size
         }
     }
 }

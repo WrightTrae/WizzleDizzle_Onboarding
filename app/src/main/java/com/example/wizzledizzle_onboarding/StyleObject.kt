@@ -4,8 +4,14 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import java.io.Serializable
 
-class StyleObject (val titleText: String, val bodyText: String, val icon: Bitmap?, val textColor: Color?, val backgroundColor: Color?, val buttonText: String?, val buttonColor: String?): Serializable {
-    init {
-
-    }
+class StyleObject (
+    textColorString: String,
+    backgroundColorString: String,
+    buttonColorString: String,
+    buttonTextColorString: String
+): Serializable {
+    var textColor = Color.parseColor(textColorString)
+    var backgroundColor = Color.parseColor(backgroundColorString)
+    var buttonColor = Color.parseColor(buttonColorString)
+    var buttonTextColor = Color.parseColor(buttonTextColorString)
 }
