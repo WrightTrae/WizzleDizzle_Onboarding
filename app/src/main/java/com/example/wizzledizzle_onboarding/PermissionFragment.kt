@@ -2,21 +2,22 @@ package com.example.wizzledizzle_onboarding
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import android.view.animation.DecelerateInterpolator
-import androidx.core.view.ViewCompat
-import androidx.core.view.ViewPropertyAnimatorCompat
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewPropertyAnimatorCompat
 import java.io.ByteArrayOutputStream
 
 
-class FragmentWelcome : Fragment() {
+class PermissionFragment : Fragment() {
     private val STARTUP_DELAY: Long = 300L
     private val ANIM_ITEM_DURATION: Long = 1000L
     private val ITEM_DELAY = 300
@@ -135,34 +136,38 @@ class FragmentWelcome : Fragment() {
         // Required Variables
         titleTV!!.text = titleText
         titleTV!!.setTextColor(style.textColor)
-        viewAnimations.plus(ViewCompat.animate(titleTV!!)
-            .translationY(0f).alpha(1f)
-            .setStartDelay((ITEM_DELAY * 0) + 500L)
-            .setDuration(1000).setInterpolator(DecelerateInterpolator()))
+        viewAnimations.plus(
+            ViewCompat.animate(titleTV!!)
+                .translationY(0f).alpha(1f)
+                .setStartDelay((ITEM_DELAY * 0) + 500L)
+                .setDuration(1000).setInterpolator(DecelerateInterpolator()))
 
         bodyTV!!.text = bodyText
         bodyTV!!.setTextColor(style.textColor)
-        viewAnimations.plus(ViewCompat.animate(bodyTV!!)
-            .translationY(0f).alpha(1f)
-            .setStartDelay((ITEM_DELAY * 1) + 500L)
-            .setDuration(1000).setInterpolator(DecelerateInterpolator()))
+        viewAnimations.plus(
+            ViewCompat.animate(bodyTV!!)
+                .translationY(0f).alpha(1f)
+                .setStartDelay((ITEM_DELAY * 1) + 500L)
+                .setDuration(1000).setInterpolator(DecelerateInterpolator()))
 
         continueButton!!.text = buttonText
-        continueButton!!.background = Utils.changeBackground(continueButton!!.background, style.buttonColor)
+        continueButton!!.setBackgroundColor(style.buttonColor)
         continueButton!!.setTextColor(style.buttonTextColor)
-        viewAnimations.plus(ViewCompat.animate(continueButton!!)
-            .scaleY(1F).scaleX(1f)
-            .setStartDelay(ITEM_DELAY * 2 + 500L)
-            .setDuration(500L).setInterpolator(DecelerateInterpolator()))
+        viewAnimations.plus(
+            ViewCompat.animate(continueButton!!)
+                .scaleY(1F).scaleX(1f)
+                .setStartDelay(ITEM_DELAY * 2 + 500L)
+                .setDuration(500L).setInterpolator(DecelerateInterpolator()))
 
         // Optional Variables
         icon?.let {
-            viewAnimations.plus(ViewCompat.animate(iconImageView!!)
-                .translationY(0f)
-                .setStartDelay(STARTUP_DELAY).alpha(1f)
-                .setDuration(ANIM_ITEM_DURATION).setInterpolator(
-                    DecelerateInterpolator(1.2f)
-                ))
+            viewAnimations.plus(
+                ViewCompat.animate(iconImageView!!)
+                    .translationY(0f)
+                    .setStartDelay(STARTUP_DELAY).alpha(1f)
+                    .setDuration(ANIM_ITEM_DURATION).setInterpolator(
+                        DecelerateInterpolator(1.2f)
+                    ))
         }
 
         viewAnimations.forEach {
@@ -178,8 +183,8 @@ class FragmentWelcome : Fragment() {
         private const val STYLE_EXTRA = "STYLE_EXTRA"
 
 
-        fun newInstance(titleText: String, bodyText: String, buttonText: String, icon: Bitmap?, style: StyleObject): FragmentWelcome {
-            val fragment = FragmentWelcome()
+        fun newInstance(titleText: String, bodyText: String, buttonText: String, icon: Bitmap?, style: StyleObject): PermissionFragment {
+            val fragment = PermissionFragment()
             val args = Bundle()
             args.putString(TITLE_EXTRA, titleText)
             args.putString(BODY_EXTRA, bodyText)
