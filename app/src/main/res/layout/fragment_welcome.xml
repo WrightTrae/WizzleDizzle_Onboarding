@@ -26,7 +26,6 @@
             app:layout_constraintGuide_percent="0.45"/>
 
     <TextView
-            android:text="Welcome to WizzleDizzle"
             style="@style/headerText"
             android:alpha="0"
             android:textColor="@android:color/black"
@@ -40,7 +39,6 @@
             android:layout_marginTop="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"/>
     <TextView
-            android:text="Herpa derp yee yee old sample text just typing stuff at random to make it look like legit text, just dont read it."
             style="@style/bodyText"
             android:alpha="0"
             android:textAlignment="center"
@@ -53,7 +51,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" android:layout_marginTop="8dp"/>
 
     <Button
-            android:text="Continue"
             style="@style/buttonStyle.primary"
             android:layout_width="match_parent"
             android:scaleX="0"
