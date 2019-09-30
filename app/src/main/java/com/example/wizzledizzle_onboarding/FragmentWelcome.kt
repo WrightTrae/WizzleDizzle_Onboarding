@@ -2,6 +2,7 @@ package com.example.wizzledizzle_onboarding
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,11 @@ class FragmentWelcome : Fragment() {
     private var titleText = ""
     private var bodyText = ""
     private var buttonText = "Continue"
+    private var titleTV: TextView? = null
+    private var bodyTV: TextView? = null
+    private var iconImageView: ImageView? = null
     private var continueButton: Button? = null
+    private var style: StyleObject? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,45 +70,86 @@ class FragmentWelcome : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val style: StyleObject
         arguments?.getSerializable(STYLE_EXTRA).let {
             style = it as StyleObject
         }
-        view.setBackgroundColor(style.backgroundColor)
+        view.setBackgroundColor(style!!.backgroundColor)
 
-        val continueBtn = view.findViewById<Button>(R.id.welcome_btn_continue)
-        continueBtn.setOnClickListener{
-            animate(view, style)
+        // Get Views
+        titleTV = view.findViewById(R.id.welcome_tv_title)
+        bodyTV = view.findViewById(R.id.welcome_tv_body)
+        continueButton = view.findViewById(R.id.welcome_btn_continue)
+        iconImageView = view.findViewById(R.id.welcome_iv_logo)
+
+        continueButton!!.setOnClickListener{
+            animate(view, style!!)
         }
+        if(userVisibleHint) {
+            animate(view, style!!)
+        }else{
+            initViews()
+        }
+    }
 
-        animate(view, style)
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if(isVisibleToUser && view != null && style != null){
+            animate(view!!, style!!)
+        }else if (!isVisibleToUser && view != null){
+            initViews()
+        }
+    }
+
+    private fun initViews(){
+        // Initialize positions
+        titleTV!!.alpha = 0f
+        titleTV!!.translationY = -50f
+        bodyTV!!.alpha = 0f
+        bodyTV!!.translationY = -50f
+        continueButton!!.scaleX = 0f
+        continueButton!!.scaleY = 0f
+        iconImageView!!.translationY = 300f
+        icon?.let {
+            iconImageView!!.setImageBitmap(it)
+        }
+//        iconImageView!!.visibility = View.INVISIBLE
     }
 
     private fun animate(view: View, style: StyleObject) {
+        // Get views just in case any of them are null
+        if(titleTV == null) {
+            titleTV = view.findViewById(R.id.welcome_tv_title)
+        }
+        if(bodyTV == null) {
+            bodyTV = view.findViewById(R.id.welcome_tv_body)
+        }
+        if(continueButton == null){
+            continueButton = view.findViewById(R.id.welcome_btn_continue)
+        }
+        if(iconImageView == null) {
+            iconImageView = view.findViewById(R.id.welcome_iv_logo)
+        }
+
+        initViews()
+
+        // Animate views
         val viewAnimations: ArrayList<ViewPropertyAnimatorCompat> = ArrayList()
 
         // Required Variables
-        val titleTV = view.findViewById<TextView>(R.id.welcome_tv_title)
-        titleTV.text = titleText
-        titleTV.setTextColor(style.textColor)
-        titleTV.translationY = -50f
-        viewAnimations.plus(ViewCompat.animate(titleTV)
+        titleTV!!.text = titleText
+        titleTV!!.setTextColor(style.textColor)
+        viewAnimations.plus(ViewCompat.animate(titleTV!!)
             .translationY(0f).alpha(1f)
             .setStartDelay((ITEM_DELAY * 0) + 500L)
             .setDuration(1000).setInterpolator(DecelerateInterpolator()))
 
-        val bodyTV = view.findViewById<TextView>(R.id.welcome_tv_body)
-        bodyTV.text = bodyText
-        bodyTV.setTextColor(style.textColor)
-        bodyTV.translationY = -50f
-        viewAnimations.plus(ViewCompat.animate(bodyTV)
+        bodyTV!!.text = bodyText
+        bodyTV!!.setTextColor(style.textColor)
+        viewAnimations.plus(ViewCompat.animate(bodyTV!!)
             .translationY(0f).alpha(1f)
             .setStartDelay((ITEM_DELAY * 1) + 500L)
             .setDuration(1000).setInterpolator(DecelerateInterpolator()))
 
-        if(continueButton == null){
-            continueButton = view.findViewById(R.id.welcome_btn_continue)
-        }
         continueButton!!.text = buttonText
         continueButton!!.setBackgroundColor(style.buttonColor)
         continueButton!!.setTextColor(style.buttonTextColor)
@@ -114,10 +160,7 @@ class FragmentWelcome : Fragment() {
 
         // Optional Variables
         icon?.let {
-            val logoImageView = view.findViewById<ImageView>(R.id.welcome_iv_logo)
-            logoImageView.setImageBitmap(it)
-            logoImageView.translationY = 300f
-            viewAnimations.plus(ViewCompat.animate(logoImageView)
+            viewAnimations.plus(ViewCompat.animate(iconImageView!!)
                 .translationY(0f)
                 .setStartDelay(STARTUP_DELAY).alpha(1f)
                 .setDuration(ANIM_ITEM_DURATION).setInterpolator(

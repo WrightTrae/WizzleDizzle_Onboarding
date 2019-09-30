@@ -30,10 +30,12 @@ class MainActivity : AppCompatActivity() {
         wizzleDizzleOnboarding!!.addWelcomeScreen("Test Title", "Test Body", "Next",
             BitmapFactory.decodeResource(resources, R.drawable.test_image)
         )
+        wizzleDizzleOnboarding!!.addWelcomeScreen("Yo yo", "Hey thats pretty cool", "Blerp",
+            BitmapFactory.decodeResource(resources, R.drawable.test_image)
+        )
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
-
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
 
@@ -68,7 +70,6 @@ class MainActivity : AppCompatActivity() {
 
         override fun getItem(position: Int): Fragment {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
             return wizzleDizzleOnboarding!!.fragments[position]
         }
 
