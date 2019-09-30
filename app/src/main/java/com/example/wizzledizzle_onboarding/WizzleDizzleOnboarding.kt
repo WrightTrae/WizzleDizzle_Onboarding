@@ -21,7 +21,7 @@ class WizzleDizzleOnboarding(
         fragments.add(FragmentWelcome.newInstance(titleText, bodyText, buttonText, icon, style))
     }
 
-    fun addPermissionScreen(){
-        fragments.add(PermissionFragment.newInstance(Manifest.permission.ACCESS_COARSE_LOCATION, "T Test", "B Test", true, style))
+    fun addPermissionScreen(permission: String, titleText: String, bodyText: String, showIcon: Boolean){
+        fragments.add(PermissionFragment.newInstance(permission, titleText, bodyText, showIcon, style))
     }
 }

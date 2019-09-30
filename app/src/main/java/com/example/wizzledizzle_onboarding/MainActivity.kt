@@ -1,5 +1,6 @@
 package com.example.wizzledizzle_onboarding
 
+import android.Manifest
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -30,10 +31,7 @@ class MainActivity : AppCompatActivity() {
         wizzleDizzleOnboarding!!.addWelcomeScreen("Test Title", "Test Body", "Next",
             BitmapFactory.decodeResource(resources, R.drawable.test_image)
         )
-        wizzleDizzleOnboarding!!.addWelcomeScreen("Yo yo", "Hey that's pretty good", "Blerp",
-            BitmapFactory.decodeResource(resources, R.drawable.test_image)
-        )
-        wizzleDizzleOnboarding!!.addPermissionScreen()
+        wizzleDizzleOnboarding!!.addPermissionScreen(Manifest.permission.ACCESS_COARSE_LOCATION, "Please allow location services for this app to run properly", "This app needs to use location services to spy/ track your location so I can sell your data to various parties. Which include the government, russians, china, lizard people, and that one creepy dude. Thank you!", true)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
