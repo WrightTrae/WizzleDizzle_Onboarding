@@ -30,9 +30,10 @@ class MainActivity : AppCompatActivity() {
         wizzleDizzleOnboarding!!.addWelcomeScreen("Test Title", "Test Body", "Next",
             BitmapFactory.decodeResource(resources, R.drawable.test_image)
         )
-        wizzleDizzleOnboarding!!.addWelcomeScreen("Yo yo", "Hey thats pretty cool", "Blerp",
+        wizzleDizzleOnboarding!!.addWelcomeScreen("Yo yo", "Hey that's pretty good", "Blerp",
             BitmapFactory.decodeResource(resources, R.drawable.test_image)
         )
+        wizzleDizzleOnboarding!!.addPermissionScreen()
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)

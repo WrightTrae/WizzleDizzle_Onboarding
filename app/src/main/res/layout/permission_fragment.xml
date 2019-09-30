@@ -7,10 +7,9 @@
         tools:context=".PermissionFragment" >
 
     <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/permission_iv_icon"
             android:layout_width="125dp"
             android:layout_height="125dp"
-            android:src="@drawable/test_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
@@ -24,7 +23,7 @@
             app:layout_constraintGuide_percent="0.15" />
 
     <TextView
-            android:id="@+id/textView"
+            android:id="@+id/permission_tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -37,10 +36,10 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/permission_iv_icon" />
 
     <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/permission_tv_body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -51,10 +50,10 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/permission_tv_title" />
 
     <Button
-        android:id="@+id/allowButton"
+        android:id="@+id/permission_btn_allow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -62,10 +61,10 @@
         style="@style/buttonStyle.primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/permission_tv_body" />
 
     <Button
-            android:id="@+id/denyButton"
+            android:id="@+id/permission_btn_deny"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -73,5 +72,5 @@
             style="@style/buttonStyle.secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/allowButton" />
+            app:layout_constraintTop_toBottomOf="@+id/permission_btn_allow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

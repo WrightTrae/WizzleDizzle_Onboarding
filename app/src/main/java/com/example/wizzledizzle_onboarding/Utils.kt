@@ -9,8 +9,10 @@ import androidx.annotation.ColorInt
 class Utils {
 
     companion object {
-        fun changeBackground(d: Drawable, color: Int): Drawable {
-            return d.overrideColor(color)
+        private val whiteColorInt: Int = Color.parseColor("#FFFFFF")
+
+        fun changeBackground(d: Drawable, color: Int, borderOnly: Boolean): Drawable {
+            return d.overrideColor(color, borderOnly)
         }
 
         @ColorInt fun darkenColor(@ColorInt color: Int): Int {
@@ -20,7 +22,7 @@ class Utils {
             })
         }
 
-        private fun Drawable.overrideColor(@ColorInt colorInt: Int): Drawable {
+        private fun Drawable.overrideColor(@ColorInt colorInt: Int, borderOnly: Boolean): Drawable {
             if (this is StateListDrawable){
                 val stateList: StateListDrawable = this
                 val drawableContainerState = stateList.constantState as DrawableContainer.DrawableContainerState
@@ -29,13 +31,19 @@ class Utils {
                 val focusedItem = children[1] as GradientDrawable
                 val unSelectedItem = children[2] as GradientDrawable
                 val darkenedColor: Int = darkenColor(colorInt)
-
-                selectedItem.setColor(darkenedColor)
-                selectedItem.setStroke(1, darkenedColor)
-                focusedItem.setColor(darkenedColor)
-                focusedItem.setStroke(1, darkenedColor)
-                unSelectedItem.setColor(colorInt)
-                unSelectedItem.setStroke(1, colorInt)
+                selectedItem.setStroke(3, darkenedColor)
+                focusedItem.setStroke(3, darkenedColor)
+                unSelectedItem.setStroke(3, colorInt)
+                if(!borderOnly){
+                    unSelectedItem.setColor(colorInt)
+                    focusedItem.setColor(darkenedColor)
+                    selectedItem.setColor(darkenedColor)
+                }else{
+                    val darkenedWhite: Int = darkenColor(whiteColorInt)
+                    unSelectedItem.setColor(whiteColorInt)
+                    focusedItem.setColor(darkenedWhite)
+                    selectedItem.setColor(darkenedWhite)
+                }
             }
             return this
         }

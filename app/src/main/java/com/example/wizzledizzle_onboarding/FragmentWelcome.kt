@@ -148,7 +148,7 @@ class FragmentWelcome : Fragment() {
             .setDuration(1000).setInterpolator(DecelerateInterpolator()))
 
         continueButton!!.text = buttonText
-        continueButton!!.background = Utils.changeBackground(continueButton!!.background, style.buttonColor)
+        continueButton!!.background = Utils.changeBackground(continueButton!!.background, style.buttonColor, false)
         continueButton!!.setTextColor(style.buttonTextColor)
         viewAnimations.plus(ViewCompat.animate(continueButton!!)
             .scaleY(1F).scaleX(1f)
